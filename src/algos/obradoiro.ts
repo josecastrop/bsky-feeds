@@ -58,11 +58,9 @@ export class manager extends AlgoManager {
   ]
 
   public re = new RegExp(
-    `^(?!.*\\b((plaza|praza) obradoiro?)\\b).*\\b(${this.matchTerms.join(
-      '|',
-    )})(es|s)?\\b.*$`,
+    `^(?!.*((plaza|praza) obradoiro?)).*(#?${this.matchTerms.join('|#?')})(es|s)?.*$`,
     'ims',
-  )
+  );
 
   public async periodicTask() {
     await this.db.removeTagFromOldPosts(

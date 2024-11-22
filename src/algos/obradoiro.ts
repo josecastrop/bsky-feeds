@@ -37,8 +37,8 @@ export class manager extends AlgoManager {
   public name: string = shortname
 
   public matchTerms: string[] = [
-    '#obradoirocab',
-    '#somosobra',
+    'obradoirocab',
+    'somosobra',
     'obradoiro cab',
     'moncho fernandez',
     'brad davison',
@@ -61,12 +61,16 @@ export class manager extends AlgoManager {
     'santiago yusta',
     'santi yusta',
     'leb oro',
+    'leboro',
+    'primerafeb'
   ]
 
   public re = new RegExp(
-    `^(?!.*((plaza|praza) obradoiro?)).*(#?${this.matchTerms.join('|#?')})(es|s)?.*$`,
+    `^(?!.*\\b((praza|praza do|plaza|plaza del) obradoiro?)\\b).*\\b(${this.matchTerms.join(
+      '|',
+    )})(es|s)?\\b.*$`,
     'ims',
-  );
+  )
 
   public async periodicTask() {
     await this.db.removeTagFromOldPosts(

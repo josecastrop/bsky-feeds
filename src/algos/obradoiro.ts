@@ -55,6 +55,12 @@ export class manager extends AlgoManager {
     'nacho arroyo',
     'alvaro muñoz',
     'primera feb',
+    'andreas obst',
+    'kostas vasileiadis',
+    'kyle singler',
+    'santiago yusta',
+    'santi yusta',
+    'leb oro',
   ]
 
   public re = new RegExp(

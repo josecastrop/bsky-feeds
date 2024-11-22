@@ -7,83 +7,76 @@ const run = async () => {
   dotenv.config()
 
   // YOUR bluesky handle
+  // Ex: user.bsky.social
   const handle = `${process.env.FEEDGEN_HANDLE}`
+
+  // YOUR bluesky password, or preferably an App Password (found in your client settings)
+  // Ex: abcd-1234-efgh-5678
   const password = `${process.env.FEEDGEN_PASSWORD}`
 
-  console.log(`Using handle: ${handle}`)
-  console.log(`Feedgen hostname: ${process.env.FEEDGEN_HOSTNAME || 'N/A'}`)
-
+  // A short name for the record that will show in urls
+  // Lowercase with no spaces.
+  // Ex: whats-hot
   const recordName = 'obradoiro'
+
+  // A display name for your feed
+  // Ex: What's Hot
   const displayName = 'Obradoiro CAB'
+
+  // (Optional) A description of your feed
+  // Ex: Top trending content from the whole network
   const description =
-    'Un feed donde encontrar información y aficionados del Obradoiro CAB. Escribe #ObradoiroCAB en tus mensajes para ser parte del feed.'
-  const avatar: string = 'images/obradoiro.png'
+    'Un feed donde encontrar información y aficcionados del Obradoiro CAB. Escribe #ObradoiroCAB en tus mensajes para ser parte del feed.'
+
+  // (Optional) The path to an image to be used as your feed's avatar
+  // Ex: ~/path/to/avatar.jpeg
+  const avatar: string = 'images/obradoiro.jpg'
+
+  // -------------------------------------
+  // NO NEED TO TOUCH ANYTHING BELOW HERE
+  // -------------------------------------
 
   if (!process.env.FEEDGEN_SERVICE_DID && !process.env.FEEDGEN_HOSTNAME) {
-    console.error('Missing hostname or service DID in .env file')
     throw new Error('Please provide a hostname in the .env file')
   }
-
   const feedGenDid =
     process.env.FEEDGEN_SERVICE_DID ?? `did:web:${process.env.FEEDGEN_HOSTNAME}`
-  console.log(`Using feed generator DID: ${feedGenDid}`)
 
+  // only update this if in a test environment
   const agent = new AtpAgent({ service: 'https://bsky.social' })
-
-  try {
-    console.log('Logging into Bluesky...')
-    await agent.login({ identifier: handle, password: password })
-    console.log('Login successful')
-  } catch (err) {
-    console.error('Login failed:', err)
-    throw err
-  }
+  await agent.login({ identifier: handle, password: password })
 
   let avatarRef: BlobRef | undefined
   if (avatar) {
-    try {
-      console.log(`Reading avatar file: ${avatar}`)
-      let encoding: string
-      if (avatar.endsWith('png')) {
-        encoding = 'image/png'
-      } else if (avatar.endsWith('jpg') || avatar.endsWith('jpeg')) {
-        encoding = 'image/jpeg'
-      } else {
-        throw new Error('Avatar file must be png or jpeg')
-      }
-      const img = await fs.readFile(avatar)
-      console.log('Uploading avatar...')
-      const blobRes = await agent.api.com.atproto.repo.uploadBlob(img, {
-        encoding,
-      })
-      avatarRef = blobRes.data.blob
-      console.log('Avatar uploaded successfully:', avatarRef)
-    } catch (err) {
-      console.error('Failed to upload avatar:', err)
-      throw err
+    let encoding: string
+    if (avatar.endsWith('png')) {
+      encoding = 'image/png'
+    } else if (avatar.endsWith('jpg') || avatar.endsWith('jpeg')) {
+      encoding = 'image/jpeg'
+    } else {
+      throw new Error('expected png or jpeg')
     }
-  }
-
-  try {
-    console.log('Creating feed generator record...')
-    const res = await agent.api.com.atproto.repo.putRecord({
-      repo: agent.session?.did ?? '',
-      collection: ids.AppBskyFeedGenerator,
-      rkey: recordName,
-      record: {
-        did: feedGenDid,
-        displayName: displayName,
-        description: description,
-        avatar: avatarRef,
-        createdAt: new Date().toISOString(),
-      },
+    const img = await fs.readFile(avatar)
+    const blobRes = await agent.api.com.atproto.repo.uploadBlob(img, {
+      encoding,
     })
-
-    console.log('Feed generator record created successfully:', res)
-  } catch (err) {
-    console.error('Failed to create feed generator record:', err)
-    throw err
+    avatarRef = blobRes.data.blob
   }
+
+  const res = await agent.api.com.atproto.repo.putRecord({
+    repo: agent.session?.did ?? '',
+    collection: ids.AppBskyFeedGenerator,
+    rkey: recordName,
+    record: {
+      did: feedGenDid,
+      displayName: displayName,
+      description: description,
+      avatar: avatarRef,
+      createdAt: new Date().toISOString(),
+    },
+  })
+
+  console.log(res)
 
   console.log('All done 🎉')
 }

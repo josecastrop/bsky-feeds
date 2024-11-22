@@ -134,3 +134,11 @@ dist
 scripts/publishExternal.ts
 scripts/publishWords.ts
 images/external.jpg
+/.idea/vcs.xml
+/.idea/codeStyles/Project.xml
+/.idea/php.xml
+/.idea/modules.xml
+/.idea/DdevIntegration.xml
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/bsky-feeds.iml
+/.idea/.gitignore

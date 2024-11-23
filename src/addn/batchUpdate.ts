@@ -28,7 +28,7 @@ export default async function batchUpdate(agent, interval) {
       let res: any
 
       try {
-        res = await limit(() => agent.app.bsky.feed.getPosts({ uris: chunk }))
+        res = await limit(() => agent.app.bsky.feed.searchPosts({ q: 'ObradoiroCAB' }))
       } catch (e) {
         console.log('core: Error fetching posts, skipping chunk...')
         continue

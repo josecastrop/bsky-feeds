@@ -108,6 +108,10 @@ export class manager extends AlgoManager {
       )
     }
     matchString = `${post.text} ${matchString}`.replace('\n', ' ')
+
+    if (post.author === 'did:plc:xtam6djuaev3wblz3ps3wbos') {
+      console.log('SOY YO!!');
+    }
     if (matchString.match(this.re) !== null) {
       console.log('EUREKA!');
       match = true

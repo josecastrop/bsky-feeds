@@ -110,6 +110,8 @@ export class manager extends AlgoManager {
     matchString = `${post.text} ${matchString}`.replace('\n', ' ')
 
     if (matchString.match(this.re) !== null) {
+      console.log(matchString);
+      console.log('EUREKA!');
       match = true
     }
 

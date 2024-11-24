@@ -83,6 +83,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     const postsToCreatePromises = postsCreated.map(async (post) => {
       const algoTagsPromises = this.algoManagers.map(async (manager) => {
         try {
+          console.log(post)
           const includeAlgo = await manager.filter_post(post)
           return includeAlgo ? manager.name : null
         } catch (err) {

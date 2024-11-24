@@ -4,6 +4,8 @@ import { AlgoManager } from '../addn/algoManager'
 import dotenv from 'dotenv'
 import { Post } from '../db/schema'
 import dbClient from '../db/dbClient'
+import { matchTerms } from '../data/termsObradoiro';
+
 
 dotenv.config()
 
@@ -36,34 +38,7 @@ export const handler = async (ctx: AppContext, params: QueryParams) => {
 export class manager extends AlgoManager {
   public name: string = shortname
 
-  public matchTerms: string[] = [
-    'obradoirocab',
-    'somosobra',
-    'obradoiro cab',
-    'moncho fernandez',
-    'brad davison',
-    'jake stephens',
-    'sergi quintela',
-    'oliver stevic',
-    'tomeu rigo',
-    'fontes do sar',
-    'millan jimenez',
-    'toms leimanis',
-    'alex galán',
-    'strahinja micovic',
-    'nacho varela',
-    'nacho arroyo',
-    'alvaro muñoz',
-    'primera feb',
-    'andreas obst',
-    'kostas vasileiadis',
-    'kyle singler',
-    'santiago yusta',
-    'santi yusta',
-    'leb oro',
-    'leboro',
-    'primerafeb'
-  ]
+  public matchTerms: string[] = matchTerms;
 
   public re = new RegExp(
     `^(?!.*\\b((praza|praza do|plaza|plaza del) obradoiro?)\\b).*\\b(${this.matchTerms.join(

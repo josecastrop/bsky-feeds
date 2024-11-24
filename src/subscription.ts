@@ -65,6 +65,10 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
 
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
 
+    if (ops.posts.creates.length > 0) {
+      console.log('First Post:', ops.posts.creates[0]); // Log the first post
+    }
+
     // Transform posts in parallel
     const postsCreated = ops.posts.creates.map((create) => ({
       _id: null,
@@ -83,7 +87,6 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     const postsToCreatePromises = postsCreated.map(async (post) => {
       const algoTagsPromises = this.algoManagers.map(async (manager) => {
         try {
-          console.log(post)
           const includeAlgo = await manager.filter_post(post)
           return includeAlgo ? manager.name : null
         } catch (err) {

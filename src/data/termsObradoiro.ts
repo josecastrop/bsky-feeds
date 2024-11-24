@@ -1,4 +1,4 @@
-export const matchTerms = [
+export const matchTerms: string[] = [
   'obradoirocab',
   'somosobra',
   'obradoiro cab',

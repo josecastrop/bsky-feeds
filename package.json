@@ -12,7 +12,7 @@
     "addSelfToList": "tsx scripts/addSelfToList.ts",
     "start": "node ./dist/index.js",
     "dev": "tsx ./src/index.ts",
-    "build": "tsc && tsc-alias"
+    "build": "tsc && tsc-alias && cp src/data/termsObradoiro.js dist/data/"
   },
   "dependencies": {
     "@atproto/api": "^0.13.5",

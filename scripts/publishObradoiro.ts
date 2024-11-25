@@ -26,11 +26,11 @@ const run = async () => {
   // (Optional) A description of your feed
   // Ex: Top trending content from the whole network
   const description =
-    'Un feed donde encontrar información y aficcionados del Obradoiro CAB. Escribe #ObradoiroCAB en tus mensajes para ser parte del feed.'
+    'Un feed donde encontrar información y aficionados del Obradoiro CAB. Escribe #ObradoiroCAB en tus mensajes para ser parte del feed.'
 
   // (Optional) The path to an image to be used as your feed's avatar
   // Ex: ~/path/to/avatar.jpeg
-  const avatar: string = 'images/obradoiro.jpg'
+  const avatar: string = 'images/obradoiro.png'
 
   // -------------------------------------
   // NO NEED TO TOUCH ANYTHING BELOW HERE

@@ -65,6 +65,10 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
 
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
 
+    if (ops.posts.creates.length > 0) {
+      console.log('First Post:', ops.posts.creates[0]); // Log the first post
+    }
+
     // Transform posts in parallel
     const postsCreated = ops.posts.creates.map((create) => ({
       _id: null,
